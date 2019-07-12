@@ -1,0 +1,81 @@
+
+name: "nakama"
+config: null
+shutdown_grace_sec: 0
+data_dir: "./data"
+logger:
+  level: "info"
+  stdout: true
+  file: ""
+  rotation: false
+  max_size: 100
+  max_age: 0
+  max_backups: 0
+  local_time: false
+  compress: false
+  format: "json"
+metrics:
+  reporting_freq_sec: 60
+  stackdriver_projectid: ""
+  namespace: ""
+  prometheus_port: 0
+session:
+  encryption_key: "FK5UfkaX1rKQYsZKZRfgm3gXcxDU2UYK"
+  token_expiry_sec: 60
+socket:
+  server_key: "9DJBwgj5bL7ywwfGMW6Vlc0lRorqL3jL"
+  port: 8085
+  address: ""
+  protocol: "tcp"
+  max_message_size_bytes: 4096
+  read_timeout_ms: 10000
+  write_timeout_ms: 10000
+  idle_timeout_ms: 60000
+  write_wait_ms: 5000
+  pong_wait_ms: 25000
+  ping_period_ms: 15000
+  ping_backoff_threshold: 20
+  outgoing_queue_size: 64
+  ssl_certificate: ""
+  ssl_private_key: ""
+database:
+  address:
+    - "root@127.0.0.1:26257"
+  conn_max_lifetime_ms: 3600000
+  max_open_conns: 100
+  max_idle_conns: 100
+social:
+  steam:
+    publisher_key: ""
+    app_id: 0
+runtime:
+  env:
+  path: "./data/modules"
+  http_key: "DSYaBw7X3qEeE7pmAGR2uFnm00wU8NAt"
+  min_count: 16
+  max_count: 256
+  call_stack_size: 128
+  registry_size: 512
+  event_queue_size: 8192
+  event_queue_workers: 8
+match:
+  input_queue_size: 128
+  call_queue_size: 128
+  join_attempt_queue_size: 128
+  deferred_queue_size: 128
+  join_marker_deadline_ms: 5000
+tracker:
+  event_queue_size: 1024
+console:
+  port: 8083
+  address: ""
+  max_message_size_bytes: 4096
+  read_timeout_ms: 10000
+  write_timeout_ms: 60000
+  idle_timeout_ms: 300000
+  username: "admin"
+  password: "password"
+  token_expiry_sec: 86400
+  signing_key: "sR8yUz2Sfy1y8vZ96DSSRq5ove6X1I9L"
+leaderboard:
+  blacklist_rank_cache:
