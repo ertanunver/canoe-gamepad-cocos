@@ -1,0 +1,8 @@
+{
+  "engine": "cocos2d-html5",
+  "packages": "packages",
+  "jsList": [
+    "src/NakamaSDK/ThirdParty/polyfill.min.js",
+    "src/NakamaSDK/nakama-js.umd.js"
+  ]
+}
