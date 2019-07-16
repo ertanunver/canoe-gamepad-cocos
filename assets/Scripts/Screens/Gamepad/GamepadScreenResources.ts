@@ -11,28 +11,18 @@
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class GamepadScreenResources extends cc.Component {
 
-    @property(cc.Label)
-    label: cc.Label = null;
-
-    @property
-    text: string = 'hello';
+    @property({ type: [cc.SpriteFrame] })
+    avatarFrames: cc.SpriteFrame[] = [];
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
 
     start () {
-
-        var ws = new WebSocket("ws://192.168.1.198:81");
+        
     }
-    
 
     // update (dt) {}
-
-    getQueryData (key) {
-        return new URL("http://example.com" + document.location.search).searchParams.get(key);
-    }
-
 }
