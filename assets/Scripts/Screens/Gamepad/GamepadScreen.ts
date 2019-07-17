@@ -8,9 +8,14 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import WebSocketManager from "../../Managers/WebSocketManager";
-import UISystem from "./Systems/UISystem";
 import GamepadScreenResources from "./GamepadScreenResources";
+import WebSocketManager from "../../Managers/WebSocket/WebSocketManager";
+import UISystem from "./Systems/UI/UISystem";
+import {ChangeAvatarMessage} from "./Systems/MessageFactory/Messages/ChangeAvatarMessage";
+import {UserModel} from "../../Models/UserModel";
+import GameManager from "../../Managers/Game/GameManager";
+import {Helper} from "../../Helper";
+import {ChangeStateMessage} from "./Systems/MessageFactory/Messages/ChangeStateMessage";
 
 const {ccclass, property} = cc._decorator;
 
@@ -19,17 +24,20 @@ export default class GamepadScreen extends cc.Component {
 
     private _resources: GamepadScreenResources;
 
+    private _gameManager: GameManager;
     private _wsManager: WebSocketManager;
+
 
     private _uiSystem: UISystem;
 
+    private _userModel: UserModel;
+
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {}
-
-    start() {
+    onLoad () {
         this._resources = this.getComponent(GamepadScreenResources);
 
+        this._gameManager = this.getComponent(GameManager);
         this._wsManager = this.getComponent(WebSocketManager);
 
         this._wsManager.onConnect = () => this.onConnect();
@@ -40,27 +48,33 @@ export default class GamepadScreen extends cc.Component {
         this._uiSystem = this.getComponent(UISystem);
 
         this._uiSystem.onChangeAvatarButtonClick = (avatarId) => this.onChangeAvatarButtonClick(avatarId);
+        this._uiSystem.onChangeStateButtonClick = (isReady) => this.onChangeStateButtonClick(isReady);
+        this._uiSystem.onReconnectButtonClick = () => this.onReconnectButtonClick();
 
+        this._userModel = new UserModel();
+    }
+
+    start() {
         this.connect();
     }
 
     private connect() {
-        let host = this.getURLHost();
+        let host = Helper.getURLHost();
         let port = 81;
 
+        this._uiSystem.enableConnectingStage();
         this._wsManager.connect(host, port);
     }
 
     private onConnect() {
-        console.log("onConnect");
-
+        this._uiSystem.enableLobbyStage();
         // set avatar randomly
-        let avatarId = this.getRandomNumber(0, this._resources.avatarFrames.length - 1);
-        this._uiSystem.changeAvatar(avatarId);
+        this._uiSystem.changeAvatar(this._gameManager.User.avatarId);
+        this._wsManager.send(new ChangeAvatarMessage(this._gameManager.User.avatarId));
     }
 
     private onDisconnect() {
-        console.log("onDisconnect");
+        this._uiSystem.enableDisconnectedStage();
     }
 
     private onErrorOccur() {
@@ -71,20 +85,24 @@ export default class GamepadScreen extends cc.Component {
         console.log("onMessageReceive: " + data);
     }
 
-    private onChangeAvatarButtonClick(avatarId) {
-        console.log(avatarId);
+    private onChangeAvatarButtonClick(avatarId: number) {
+        this._gameManager.User.avatarId = avatarId;
         this._uiSystem.changeAvatar(avatarId);
+        this._wsManager.send(new ChangeAvatarMessage(avatarId));
     }
 
-
-    // helpers
-    private getURLHost() {
-        return window.location.host.split(":")[0];
+    private onChangeStateButtonClick(isReady: boolean) {
+        this._gameManager.User.isReady = isReady;
+        this._uiSystem.changeState(!isReady);
+        this._wsManager.send(new ChangeStateMessage(isReady));
     }
 
-    private getRandomNumber(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);
+    private onReconnectButtonClick() {
+        this.connect();
     }
 
+    private createUserModel() {
+        this._userModel = new UserModel();
+    }
     // update (dt) {}
 }

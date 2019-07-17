@@ -8,6 +8,8 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
+import {Message} from "./Message";
+
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -32,7 +34,7 @@ export default class WebSocketManager extends cc.Component {
 
     // private
 
-    public connect(host, port) {
+    public connect(host: string, port: number) {
         this._socket = new WebSocket("ws://" + host + ":" + port);
 
         this._socket.onopen = () => {
@@ -58,8 +60,8 @@ export default class WebSocketManager extends cc.Component {
         this._socket.onmessage = null;
     }
 
-    public send() {
-        console.log("sent");
-        this._socket.send('{"code": 10}')
+    public send(message: Message) {
+        console.log(message.toJson());
+        this._socket.send(message.toJson());
     }
 }
