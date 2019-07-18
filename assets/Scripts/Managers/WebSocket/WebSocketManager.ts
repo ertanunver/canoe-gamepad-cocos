@@ -47,6 +47,7 @@ export default class WebSocketManager extends cc.Component {
             if (this.onErrorOccur !== undefined) this.onErrorOccur();
         };
         this._socket.onmessage = (e) => {
+            console.log(e.data);
             if (this.onMessageReceive !== undefined) this.onMessageReceive(e.data);
         };
     }

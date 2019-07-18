@@ -16,6 +16,8 @@ import {UserModel} from "../../Models/UserModel";
 import GameManager from "../../Managers/Game/GameManager";
 import {Helper} from "../../Helper";
 import {ChangeStateMessage} from "./Systems/MessageFactory/Messages/ChangeStateMessage";
+import MessageFactorySystem from "./Systems/MessageFactory/MessageFactorySystem";
+import log = cc.log;
 
 const {ccclass, property} = cc._decorator;
 
@@ -29,6 +31,7 @@ export default class GamepadScreen extends cc.Component {
 
 
     private _uiSystem: UISystem;
+    private _messageFactorySystem: MessageFactorySystem;
 
     private _userModel: UserModel;
 
@@ -43,13 +46,15 @@ export default class GamepadScreen extends cc.Component {
         this._wsManager.onConnect = () => this.onConnect();
         this._wsManager.onDisconnect = () => this.onDisconnect();
         this._wsManager.onErrorOccur = () => this.onErrorOccur();
-        this._wsManager.onMessageReceive = (data) => this.onMessageReceive(data);
+        this._wsManager.onMessageReceive = (data: string) => this.onMessageReceive(data);
 
         this._uiSystem = this.getComponent(UISystem);
+        this._messageFactorySystem = this.getComponent(MessageFactorySystem);
 
         this._uiSystem.onChangeAvatarButtonClick = (avatarId) => this.onChangeAvatarButtonClick(avatarId);
         this._uiSystem.onChangeStateButtonClick = (isReady) => this.onChangeStateButtonClick(isReady);
         this._uiSystem.onReconnectButtonClick = () => this.onReconnectButtonClick();
+        this._messageFactorySystem.onStartGameMessage = () => this.onStartGameMessage();
 
         this._userModel = new UserModel();
     }
@@ -81,8 +86,10 @@ export default class GamepadScreen extends cc.Component {
         console.log("onErrorOccur");
     }
 
-    private onMessageReceive(data: String) {
-        console.log("onMessageReceive: " + data);
+    private onMessageReceive(data: string) {
+        console.log(data);
+        let message = JSON.parse(data);
+        this._messageFactorySystem.produce(message.code, data);
     }
 
     private onChangeAvatarButtonClick(avatarId: number) {
@@ -99,6 +106,10 @@ export default class GamepadScreen extends cc.Component {
 
     private onReconnectButtonClick() {
         this.connect();
+    }
+
+    private onStartGameMessage() {
+        this._uiSystem.enableGameStage();
     }
 
     private createUserModel() {
