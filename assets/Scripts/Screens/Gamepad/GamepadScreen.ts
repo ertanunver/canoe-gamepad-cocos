@@ -18,6 +18,8 @@ import {Helper} from "../../Helper";
 import {ChangeStateMessage} from "./Systems/MessageFactory/Messages/ChangeStateMessage";
 import MessageFactorySystem from "./Systems/MessageFactory/MessageFactorySystem";
 import log = cc.log;
+import SwipeSystem from "./Systems/Swipe/SwipeSystem";
+import {SwipeMessage} from "./Systems/MessageFactory/Messages/SwipeMessage";
 
 const {ccclass, property} = cc._decorator;
 
@@ -32,6 +34,7 @@ export default class GamepadScreen extends cc.Component {
 
     private _uiSystem: UISystem;
     private _messageFactorySystem: MessageFactorySystem;
+    private _swipeSystem: SwipeSystem;
 
     private _userModel: UserModel;
 
@@ -50,11 +53,14 @@ export default class GamepadScreen extends cc.Component {
 
         this._uiSystem = this.getComponent(UISystem);
         this._messageFactorySystem = this.getComponent(MessageFactorySystem);
+        this._swipeSystem = this.getComponent(SwipeSystem);
 
         this._uiSystem.onChangeAvatarButtonClick = (avatarId) => this.onChangeAvatarButtonClick(avatarId);
         this._uiSystem.onChangeStateButtonClick = (isReady) => this.onChangeStateButtonClick(isReady);
         this._uiSystem.onReconnectButtonClick = () => this.onReconnectButtonClick();
         this._messageFactorySystem.onStartGameMessage = () => this.onStartGameMessage();
+        this._swipeSystem.onUpSwipe = () => this.onUpSwipe();
+        this._swipeSystem.onDownSwipe = () => this.onDownSwipe();
 
         this._userModel = new UserModel();
     }
@@ -110,6 +116,14 @@ export default class GamepadScreen extends cc.Component {
 
     private onStartGameMessage() {
         this._uiSystem.enableGameStage();
+    }
+
+    private onUpSwipe() {
+        this._wsManager.send(new SwipeMessage("up"))
+    }
+
+    private onDownSwipe() {
+        this._wsManager.send(new SwipeMessage("down"))
     }
 
     private createUserModel() {

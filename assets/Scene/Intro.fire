@@ -20,7 +20,7 @@
         "__id__": 22
       },
       {
-        "__id__": 58
+        "__id__": 59
       }
     ],
     "_active": true,
@@ -85,7 +85,7 @@
     "_level": 0,
     "_components": [
       {
-        "__id__": 57
+        "__id__": 58
       }
     ],
     "_prefab": null,
@@ -1252,7 +1252,7 @@
         "__id__": 48
       }
     ],
-    "_active": true,
+    "_active": false,
     "_level": 2,
     "_components": [],
     "_prefab": null,
@@ -2502,8 +2502,12 @@
     "_parent": {
       "__id__": 7
     },
-    "_children": [],
-    "_active": false,
+    "_children": [
+      {
+        "__id__": 57
+      }
+    ],
+    "_active": true,
     "_level": 2,
     "_components": [],
     "_prefab": null,
@@ -2549,6 +2553,61 @@
     "_is3DNode": false,
     "groupIndex": 0,
     "_id": "18Ty7djFNO3p5gbpzF3U85"
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "SwipeArea",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 56
+    },
+    "_children": [],
+    "_active": true,
+    "_level": 3,
+    "_components": [],
+    "_prefab": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 414,
+      "height": 736
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_position": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_quat": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": "633SCCuxlLBr5m3xDoR/Q7"
   },
   {
     "__type__": "cc.Canvas",

@@ -51,8 +51,6 @@ export default class UISystem extends cc.Component {
         this._stateButtonLabel= cc.find("Canvas/UI/LobbyStage/StateButton/Background/Label").getComponent(Label);
     }
 
-    start () {}
-
     public changeAvatar(avatarId: number) {
         this._avatarSprite.spriteFrame = this._resources.avatarFrames[avatarId];
     }

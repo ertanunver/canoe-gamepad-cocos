@@ -1,7 +1,7 @@
 class Message {
-    public code: Number;
+    public code: number;
 
-    constructor(code: Number) {
+    constructor(code: number) {
         this.code = code;
     }
 
