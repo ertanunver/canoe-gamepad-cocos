@@ -8,7 +8,7 @@ class Helper {
     }
 
     public static getDeviceId(): string {
-        let deviceId = cc.sys.localStorage.getItem("DeviceId");
+        let deviceId = cc.sys.localStorage.getItem("device_id");
         if (deviceId === null) {
             deviceId = this.getRandomString(16);
             cc.sys.localStorage.setItem("device_id", deviceId);
