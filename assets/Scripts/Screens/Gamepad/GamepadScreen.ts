@@ -72,9 +72,10 @@ export default class GamepadScreen extends cc.Component {
     private connect() {
         let host = Helper.getURLHost();
         let port = 81;
+        let deviceId = Helper.getDeviceId();
 
         this._uiSystem.enableConnectingStage();
-        this._wsManager.connect(host, port);
+        this._wsManager.connect(host, port, deviceId);
     }
 
     private onConnect() {
@@ -93,7 +94,6 @@ export default class GamepadScreen extends cc.Component {
     }
 
     private onMessageReceive(data: string) {
-        console.log(data);
         let message = JSON.parse(data);
         this._messageFactorySystem.produce(message.code, data);
     }

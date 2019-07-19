@@ -9,6 +9,7 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import {Message} from "./Message";
+import {Helper} from "../../Helper";
 
 const {ccclass, property} = cc._decorator;
 
@@ -34,8 +35,9 @@ export default class WebSocketManager extends cc.Component {
 
     // private
 
-    public connect(host: string, port: number) {
-        this._socket = new WebSocket("ws://" + host + ":" + port);
+    public connect(host: string, port: number, deviceId: string) {
+        // this._socket = new WebSocket("ws://" + host + ":" + port.toString() + "&deviceId=" + deviceId);
+        this._socket = new WebSocket(`ws://${host}:${port}?device_id=${deviceId}`);
 
         this._socket.onopen = () => {
             if (this.onConnect !== undefined) this.onConnect();
