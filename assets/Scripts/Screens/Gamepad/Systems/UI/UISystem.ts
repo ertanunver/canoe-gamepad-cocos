@@ -14,7 +14,7 @@ import GameManager from "../../../../Managers/Game/GameManager";
 import Button = cc.Button;
 import Label = cc.Label;
 
-const {ccclass, property} = cc._decorator;
+const {ccclass} = cc._decorator;
 
 @ccclass
 export default class UISystem extends cc.Component {
@@ -27,28 +27,26 @@ export default class UISystem extends cc.Component {
     private _gameManager: GameManager;
 
     private _connectingStage: cc.Node;
-    private _disconnectedStage: cc.Node;
+    private _errorStage: cc.Node;
     private _lobbyStage: cc.Node;
     private _gameStage: cc.Node;
 
     private _avatarSprite: Sprite;
-    private _stateButton: Button;
-    private _stateButtonLabel: Label;
+    private _stateNode: cc.Node;
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
+    onLoad() {
         this._resources = this.getComponent(GamepadScreenResources);
         this._gameManager = this.getComponent(GameManager);
 
         this._connectingStage = cc.find("Canvas/UI/ConnectingStage");
-        this._disconnectedStage = cc.find("Canvas/UI/DisconnectedStage");
+        this._errorStage = cc.find("Canvas/UI/ErrorStage");
         this._lobbyStage = cc.find("Canvas/UI/LobbyStage");
         this._gameStage = cc.find("Canvas/UI/GameStage");
 
-        this._avatarSprite = cc.find("Canvas/UI/LobbyStage/AvatarSprite").getComponent(Sprite);
-        this._stateButton = cc.find("Canvas/UI/LobbyStage/StateButton").getComponent(Button);
-        this._stateButtonLabel= cc.find("Canvas/UI/LobbyStage/StateButton/Background/Label").getComponent(Label);
+        this._avatarSprite = cc.find("Canvas/UI/LobbyStage/AvatarButton/AvatarSprite").getComponent(Sprite);
+        this._stateNode = cc.find("Canvas/UI/LobbyStage/State");
     }
 
     public changeAvatar(avatarId: number) {
@@ -56,8 +54,7 @@ export default class UISystem extends cc.Component {
     }
 
     public changeState(isReady: boolean) {
-        let text = isReady ? "READY" : "UNREADY";
-        this._stateButtonLabel.string = text;
+        this._stateNode.active = isReady;
     }
 
     public enableConnectingStage() {
@@ -65,13 +62,14 @@ export default class UISystem extends cc.Component {
         this._connectingStage.active = true;
     }
 
-    public enableDisconnectedStage() {
+    public enableErrorStage() {
         this.disableAllStages();
-        this._disconnectedStage.active = true;
+        this._errorStage.active = true;
     }
 
     public enableLobbyStage() {
         this.disableAllStages();
+        this.changeState(!this._gameManager.User.isReady);
         this._lobbyStage.active = true;
     }
 
@@ -86,9 +84,13 @@ export default class UISystem extends cc.Component {
         if (this.onChangeAvatarButtonClick !== undefined) this.onChangeAvatarButtonClick(selectedAvatarId);
     }
 
-    private changeStateButtonClicked() {
-        let currentState = this._gameManager.User.isReady;
-        if (this.onChangeStateButtonClick !== undefined) this.onChangeStateButtonClick(!currentState);
+    private readyButtonClicked() {
+        if (this.onChangeStateButtonClick !== undefined) this.onChangeStateButtonClick(true);
+    }
+
+    private unreadyButtonClicked() {
+        if (!this._gameManager.User.isReady) return;
+        if (this.onChangeStateButtonClick !== undefined) this.onChangeStateButtonClick(false);
     }
 
     private reconnectButtonClicked() {
@@ -97,10 +99,8 @@ export default class UISystem extends cc.Component {
 
     private disableAllStages() {
         this._connectingStage.active = false;
-        this._disconnectedStage.active = false;
+        this._errorStage.active = false;
         this._lobbyStage.active = false;
         this._gameStage.active = false;
     }
-
-    // update (dt) {}
 }

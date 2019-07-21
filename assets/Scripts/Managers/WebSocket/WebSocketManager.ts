@@ -11,7 +11,7 @@
 import {Message} from "./Message";
 import {Helper} from "../../Helper";
 
-const {ccclass, property} = cc._decorator;
+const {ccclass} = cc._decorator;
 
 @ccclass
 export default class WebSocketManager extends cc.Component {
@@ -22,18 +22,6 @@ export default class WebSocketManager extends cc.Component {
     public onMessageReceive: (data: String) => void;
 
     private _socket: WebSocket;
-
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {}
-
-    start() {
-
-    }
-
-    // update (dt) {}
-
-    // private
 
     public connect(host: string, port: number, deviceId: string) {
         // this._socket = new WebSocket("ws://" + host + ":" + port.toString() + "&deviceId=" + deviceId);
@@ -49,7 +37,6 @@ export default class WebSocketManager extends cc.Component {
             if (this.onErrorOccur !== undefined) this.onErrorOccur();
         };
         this._socket.onmessage = (e) => {
-            console.log(e.data);
             if (this.onMessageReceive !== undefined) this.onMessageReceive(e.data);
         };
     }

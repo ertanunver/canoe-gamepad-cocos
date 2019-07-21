@@ -86,11 +86,13 @@ export default class GamepadScreen extends cc.Component {
     }
 
     private onDisconnect() {
-        this._uiSystem.enableDisconnectedStage();
+        this._gameManager.User.isReady = false;
+        this._uiSystem.enableErrorStage();
     }
 
     private onErrorOccur() {
-        console.log("onErrorOccur");
+        this._gameManager.User.isReady = false;
+        this._uiSystem.enableErrorStage();
     }
 
     private onMessageReceive(data: string) {
@@ -125,9 +127,4 @@ export default class GamepadScreen extends cc.Component {
     private onDownSwipe() {
         this._wsManager.send(new SwipeMessage("down"))
     }
-
-    private createUserModel() {
-        this._userModel = new UserModel();
-    }
-    // update (dt) {}
 }
