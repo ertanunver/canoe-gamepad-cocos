@@ -87,8 +87,6 @@ export default class UISystem extends cc.Component {
             layout.node.removeAllChildren(true);
         });
 
-        console.log(position);
-
         for (let i = 0; i < avatars.length; i++) {
             let avatarId = avatars[i];
 

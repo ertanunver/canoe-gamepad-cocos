@@ -2833,7 +2833,7 @@
         "__id__": 64
       },
       {
-        "__id__": 70
+        "__id__": 69
       }
     ],
     "_active": true,
@@ -2900,11 +2900,7 @@
     ],
     "_active": true,
     "_level": 3,
-    "_components": [
-      {
-        "__id__": 69
-      }
-    ],
+    "_components": [],
     "_prefab": null,
     "_opacity": 255,
     "_color": {
@@ -2916,8 +2912,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 568,
-      "height": 938
+      "width": 414,
+      "height": 736
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3140,32 +3136,6 @@
     "_id": "82rinpc0dBj7E4iKLi9Can"
   },
   {
-    "__type__": "cc.Sprite",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 64
-    },
-    "_enabled": false,
-    "_materials": [],
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_spriteFrame": null,
-    "_type": 0,
-    "_sizeMode": 1,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_atlas": null,
-    "_id": "d0Hi4EvT5OuZ61jAKFjBgI"
-  },
-  {
     "__type__": "cc.Node",
     "_name": "SwipeArea",
     "_objFlags": 0,
@@ -3175,9 +3145,13 @@
     "_children": [],
     "_active": true,
     "_level": 3,
-    "_components": [],
+    "_components": [
+      {
+        "__id__": 70
+      }
+    ],
     "_prefab": null,
-    "_opacity": 255,
+    "_opacity": 196,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -3192,13 +3166,13 @@
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
+      "x": 0,
+      "y": 0
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
+      "x": -207,
+      "y": -368,
       "z": 0
     },
     "_scale": {
@@ -3219,6 +3193,35 @@
     "_is3DNode": false,
     "groupIndex": 0,
     "_id": "633SCCuxlLBr5m3xDoR/Q7"
+  },
+  {
+    "__type__": "cc.Graphics",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 69
+    },
+    "_enabled": true,
+    "_materials": [],
+    "_lineWidth": 25,
+    "_strokeColor": {
+      "__type__": "cc.Color",
+      "r": 43,
+      "g": 39,
+      "b": 82,
+      "a": 196
+    },
+    "_lineJoin": 2,
+    "_lineCap": 1,
+    "_fillColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 196
+    },
+    "_miterLimit": 0,
+    "_id": "62gNcXjGhDgKmRBm/KQSxi"
   },
   {
     "__type__": "cc.Canvas",
