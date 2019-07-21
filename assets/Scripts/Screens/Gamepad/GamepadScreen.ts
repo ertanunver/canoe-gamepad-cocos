@@ -58,7 +58,7 @@ export default class GamepadScreen extends cc.Component {
         this._uiSystem.onChangeAvatarButtonClick = (avatarId) => this.onChangeAvatarButtonClick(avatarId);
         this._uiSystem.onChangeStateButtonClick = (isReady) => this.onChangeStateButtonClick(isReady);
         this._uiSystem.onReconnectButtonClick = () => this.onReconnectButtonClick();
-        this._messageFactorySystem.onStartGameMessage = () => this.onStartGameMessage();
+        this._messageFactorySystem.onStartGameMessage = (position, avatars) => this.onStartGameMessage(position, avatars);
         this._swipeSystem.onUpSwipe = () => this.onUpSwipe();
         this._swipeSystem.onDownSwipe = () => this.onDownSwipe();
 
@@ -96,6 +96,7 @@ export default class GamepadScreen extends cc.Component {
     }
 
     private onMessageReceive(data: string) {
+        console.log("Received: " + data);
         let message = JSON.parse(data);
         this._messageFactorySystem.produce(message.code, data);
     }
@@ -116,8 +117,9 @@ export default class GamepadScreen extends cc.Component {
         this.connect();
     }
 
-    private onStartGameMessage() {
+    private onStartGameMessage(position: number, avatars: number[]) {
         this._uiSystem.enableGameStage();
+        this._uiSystem.placeCanoePlayers(position, avatars);
     }
 
     private onUpSwipe() {

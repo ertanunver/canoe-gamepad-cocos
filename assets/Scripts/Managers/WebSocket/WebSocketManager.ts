@@ -51,7 +51,7 @@ export default class WebSocketManager extends cc.Component {
     }
 
     public send(message: Message) {
-        console.log(message.toJson());
+        console.log("Sent: " + message.toJson());
         this._socket.send(message.toJson());
     }
 }

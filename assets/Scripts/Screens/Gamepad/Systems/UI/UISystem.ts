@@ -11,8 +11,7 @@
 import Sprite = cc.Sprite;
 import GamepadScreenResources from "../../GamepadScreenResources";
 import GameManager from "../../../../Managers/Game/GameManager";
-import Button = cc.Button;
-import Label = cc.Label;
+import Layout = cc.Layout;
 
 const {ccclass} = cc._decorator;
 
@@ -33,6 +32,7 @@ export default class UISystem extends cc.Component {
 
     private _avatarSprite: Sprite;
     private _stateNode: cc.Node;
+    private _canoeLayouts: Layout[];
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -47,6 +47,10 @@ export default class UISystem extends cc.Component {
 
         this._avatarSprite = cc.find("Canvas/UI/LobbyStage/AvatarButton/AvatarSprite").getComponent(Sprite);
         this._stateNode = cc.find("Canvas/UI/LobbyStage/State");
+        this._canoeLayouts = [
+            cc.find("Canvas/UI/GameStage/Canoe/Left").getComponent(Layout),
+            cc.find("Canvas/UI/GameStage/Canoe/Right").getComponent(Layout)
+        ];
     }
 
     public changeAvatar(avatarId: number) {
@@ -76,6 +80,25 @@ export default class UISystem extends cc.Component {
     public enableGameStage() {
         this.disableAllStages();
         this._gameStage.active = true;
+    }
+
+    public placeCanoePlayers(position: number, avatars: number[]) {
+        this._canoeLayouts.forEach(layout => {
+            layout.node.removeAllChildren(true);
+        });
+
+        console.log(position);
+
+        for (let i = 0; i < avatars.length; i++) {
+            let avatarId = avatars[i];
+
+            let canoePlayer = cc.instantiate(this._resources.canoePlayerPrefab);
+            canoePlayer.getComponent(Sprite).spriteFrame = this._resources.avatarFrames[avatarId];
+            if (position === i) { canoePlayer.opacity = 255; } else  { canoePlayer.opacity = 63; }
+
+            let canoeLayout = this._canoeLayouts[i % 2];
+            canoeLayout.node.addChild(canoePlayer);
+        }
     }
 
     private changeAvatarButtonClicked(event, customEventData) {

@@ -16,13 +16,6 @@ export default class GamepadScreenResources extends cc.Component {
     @property({ type: [cc.SpriteFrame] })
     avatarFrames: cc.SpriteFrame[] = [];
 
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {}
-
-    start () {
-        
-    }
-
-    // update (dt) {}
+    @property(cc.Prefab)
+    canoePlayerPrefab: cc.Prefab = null;
 }

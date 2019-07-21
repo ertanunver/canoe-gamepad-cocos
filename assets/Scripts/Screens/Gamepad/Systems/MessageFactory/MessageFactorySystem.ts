@@ -15,20 +15,13 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class MessageFactorySystem extends cc.Component {
 
-    public onStartGameMessage: () => void;
-
-    // onLoad () {}
-
-    start() {
-
-    }
-
-    // update (dt) {}
+    public onStartGameMessage: (position: number, avatars: number[]) => void;
 
     public produce(code: number, data: string) {
         switch (code) {
             case MessageCodes.StartGame:
-                if (this.onStartGameMessage !== undefined) this.onStartGameMessage();
+                let message = JSON.parse(data);
+                if (this.onStartGameMessage !== undefined) this.onStartGameMessage(message.position,message.avatars);
                 break;
         }
     }
